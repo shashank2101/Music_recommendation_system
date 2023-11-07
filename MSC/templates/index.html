@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='new.css') }}">
+    <!-- <link href="{{url_for('static',filename='img3.jpeg')}}"> -->
+    <title>Song Recommendation</title>
+    <script>
+function hoverCard(element, event) {
+        element.style.filter = "blur(0)";
+        let siblings = Array.from(element.parentElement.children);
+        siblings.forEach((sibling) => {
+            if (sibling !== element) {
+                sibling.style.filter = "blur(9px)";
+            }
+        });
+        element.addEventListener('click', function () {
+        // Specify the URL of the details page you want to load
+        const detailsPageUrl = 'details';
+            {
+            // Get data from the clicked music-card
+            const musicCardData = {
+                // Replace these with actual data retrieval methods
+
+                SongName: element.querySelector('h3').textContent,
+                Rating_and_genre: element.querySelector('p').textContent,
+                Image:element.querySelector('img').src
+            };
+            // console.log(musicCardData.Image); 
+
+            // Convert the data to a JSON string
+            const jsonData = JSON.stringify(musicCardData);
+
+            // Store the data in localStorage to transfer it to the next page
+            localStorage.setItem('musicCardData', jsonData);
+
+            // Redirect to the other HTML page (page2.html)
+            // window.location.href = 'page2.html';
+            // console.log("funcigtonsa");
+        // Navigate to the details page
+        window.location.href = detailsPageUrl;
+    }});
+}
+
+
+
+function resetCards() {
+    let cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+        card.style.filter = "blur(0)";
+    });
+
+    
+}
+    </script>
+
+</head>
+<body>
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const images = [
+            'img1.png', // Path to your image 1
+            'img2.jpg', // Path to your image 2
+            'img3.jpeg', // Path to your image 3
+            'img4.png', // Path to your image 4
+            'img5.jpg'  // Path to your image 5
+        ];
+    function changeImageSource() {
+    const images = [
+        'https://cdn.pixabay.com/photo/2017/01/11/10/25/headsets-1971383_1280.jpg',
+        'https://cdn.pixabay.com/photo/2017/01/18/17/14/girl-1990347_1280.jpg',
+        'https://cdn.pixabay.com/photo/2013/07/12/18/17/equalizer-153212_1280.png',
+        'https://img.freepik.com/free-vector/gradient-album-cover-template_23-2150597431.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO-RJoyWwvL5Q2zHo1UE0K03GisHZldnh5Bg&usqp=CAU',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIQxNu9ZiSVM7NmTgxDc49E1qd8-6lvhdzZpDLn3UhYkf5kGNymbBdEDX1VAxvN4vyQDg&usqp=CAU',
+        'https://i.pinimg.com/736x/35/76/4a/35764a8eae34e4ee3723fc8db5a7e45e.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKyS29ao8GEs52-oUnBOAPZE98WuY1MxLsEQ&usqp=CAU',
+        'https://people.com/thmb/kPIp7Wm8qq_myynBtfykBj_5fSc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(999x0:1001x2)/taylor-swift-lover-2000-e4a62abb38b9483e8d371eda823d2fcb.jpg',
+        'https://people.com/thmb/bnv58OSnUSsOsnwP_c9f85fBdv0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(992x0:994x2)/taylor-swift7-2000-48f9bfb372c34e36866773b1ede0b372.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZMlB5m7mY0TENeiuYjvPuEcuvdjGRqsLp75iFY2bRqbiUxkuz29T9Eh2zvPBI581V83k&usqp=CAU',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIDz9MFzK8NmL-tG46xjLdlPIZ9jCh7W9GCt2BwrcC8C7vWDLyL6jlLU8VRNcns3DuYq4&usqp=CAU'
+
+    ];
+    
+    const imgElements = document.querySelectorAll('.im');
+    
+    let currentIndex = 0;
+    
+    imgElements.forEach((element) => {
+        element.src = images[currentIndex];
+        currentIndex = (currentIndex + 1) % images.length;
+    });
+    
+    function getaudio()
+  { audios = ['faded.mp3','Alone.mp3','Believer.mp3'];
+    const audi = document.querySelectorAll('.audio');
+
+    let current = 0;
+
+    audi.forEach((ele) => {
+        sourceElement.src = "{{ url_for('serve_audio', filename='faded.mp3')}}" ;
+        current = (current + 1) % audios.length;
+        console.log(audios[current]);
+    });
+}
+   
+
+}
+        document.addEventListener('DOMContentLoaded', changeImageSource);
+        // document.addEventListener('DOMContentLoaded', changeaudioSource);
+        
+ 
+
+</script>
+    <div class="header">
+        <img src="https://shorturl.at/ajSX2">
+        <h1>Song Recommendation</h1>
+    </div>
+    <div class="container">
+        <form action="/" method="post">
+            <!-- <label for="song_name">Enter a song name:</label> -->
+            <input type="text" id="song_name" name="song_name" oninput="updateValue(this.value)" required size="40" placeholder="Enter Song name">
+            <button type="submit">Submit</button>
+        </form>
+        <h2>Top Rated Songs:</h2>
+        <div class="music-card">
+            
+            {% if top_rated_songs is not none %}
+                {% for index, row in top_rated_songs.iterrows() %}
+                <div class="card" onmouseover="hoverCard(this)" onmouseout="resetCards()">
+                    <img src="" alt="Music Image" class="im">
+                    <div class="card-details">
+                        <h3>{{ row['SongName'] }}</h3>
+                        <p>Rating: {{ row['Rating'] }} - Genre: {{ row['Genre'] }}</p>
+                        
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No top rated songs available.</p>
+            {% endif %}
+        </div>
+        <h2>Recommended songs with similar genre:</h2>
+        <div class="music-card">
+            {% if genre_recommendations is not none %}
+                {% for index, row in genre_recommendations.iterrows() %}
+                
+                <div class="card" onmouseover="hoverCard(this)" onmouseout="resetCards()">
+                    <img src="" alt="Music Image" class="im">
+                        <div class="card-details">
+                            <h3>{{ row['SongName'] }}</h3>
+                            <p>Rating: {{ row['Rating'] }} - Genre: {{ row['Genre'] }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No recommendations available.</p>
+            {% endif %}
+        </div>
+
+        <h2>Recommended songs with the same artist:</h2>
+        <div class="music-card">
+            {% if artist_recommendations is not none %}
+                {% for index, row in artist_recommendations.iterrows() %}
+                <div class="card" onmouseover="hoverCard(this)" onmouseout="resetCards()">
+                    <img src="" alt="Music Image" class="im">
+                    <div class="card-details">
+                        <h3>{{ row['SongName'] }}</h3>
+                        <p>Rating: {{ row['Rating'] }} - Genre: {{ row['Genre'] }}</p> 
+                    </div>
+                </div>
+                
+                {% endfor %}
+            {% else %}
+                <p>No recommendations available.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
